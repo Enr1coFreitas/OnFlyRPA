@@ -1,0 +1,12 @@
+{
+    "fullName": "João da Silva",
+    "address": "Rua Getulio Vargas, 123",
+    "city": "São Paulo",
+    "state": "SP",
+    "zip": "12345-678",
+    "phone": "+5511999999999",
+    "email": "joao.silva@example.com.br",
+    "creditCardNumber": "1234-5678-1234-5678",
+    "creditCardExpiry": "2026-07",
+    "creditCardCVC": "123"
+  }

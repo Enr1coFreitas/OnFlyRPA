@@ -4,6 +4,8 @@ import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import estados from '../../data/states.json';
 import municipios from '../../data/cities.json';
+import autoFillData from '../../data/autoFillData.json';
+import changeParagraphText from '../../domManipulaton';
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -21,6 +23,7 @@ const Form = () => {
 
   const [successMessage, setSuccessMessage] = useState('');
   const [cities, setCities] = useState([]);
+  const [emailError, setEmailError] = useState('');
 
   useEffect(() => {
     if (formData.state) {
@@ -51,9 +54,18 @@ const Form = () => {
     });
   };
 
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    if (!validateEmail(formData.email)) {
+      setEmailError('Por favor, insira um endereço de e-mail válido.');
+      return;
+    }
+    setEmailError('');
     setSuccessMessage('Formulário enviado com sucesso!');
     setTimeout(() => {
       setSuccessMessage('');
@@ -106,6 +118,10 @@ const Form = () => {
       ...formData,
       creditCardCVC: formattedCVC
     });
+  };
+
+  const autoFillForm = () => {
+    setFormData(autoFillData);
   };
 
   return (
@@ -203,6 +219,7 @@ const Form = () => {
                 onChange={handleChange}
                 required
               />
+              {emailError && <p className="error">{emailError}</p>}
             </div>
             <div>
               <label>Número do cartão de crédito:</label>
@@ -239,8 +256,15 @@ const Form = () => {
               />
             </div>
           </div>
+          <p>Este é um parágrafo que será alterado.</p>
           <button type="submit">Enviar</button>
         </form>
+      )}
+      {!successMessage && (
+        <div className="button-container">
+          <button onClick={changeParagraphText}>Alterar texto dos parágrafos</button>
+          <button onClick={autoFillForm}>Preencher Automático</button>
+        </div>
       )}
     </div>
   );
